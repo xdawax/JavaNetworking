@@ -1,0 +1,38 @@
+import java.io.*;
+import java.net.*;
+
+public class Server
+{
+    public static void main(String[] args) throws Exception
+    {
+        Server server = new Server();
+
+        server.run();
+    }
+
+    public void run() throws Exception
+    {
+        System.out.println("Server is setting up...");
+        ServerSocket servSock = new ServerSocket(1337);
+        Socket sock = servSock.accept();
+        InputStreamReader IR = new InputStreamReader(sock.getInputStream());
+        BufferedReader BR = new BufferedReader(IR);
+        System.out.println("Server is set up...");
+
+        
+        String message = BR.readLine();
+
+        while (!message.equals("Quit")) {
+        System.out.println(message);
+
+        message = BR.readLine();
+        
+        if(message != null) {
+            PrintStream PS = new PrintStream(sock.getOutputStream());
+            PS.println("Message recieved");
+        }
+        }
+        
+    }
+
+}
